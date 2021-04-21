@@ -32,7 +32,7 @@ class Search extends Component {
         // console.log(filter)
         const filterList = this.state.people.filter(person => {
             // console.log(person)
-            let values = Object.values(person).join("").toLowerCase()
+            let values = Object.values(JSON.stringify(person)).join("").toLowerCase()
             // console.log(values)
             return values.indexOf(filter.toLowerCase()) !== -1
         })
@@ -56,7 +56,7 @@ class Search extends Component {
         return (
             <div>
                 <Container style={{ minHeight: "80%" }}>
-                    <h1 className="text-center">Search for People!</h1>
+                    <h1 className="text-center">Employee Database</h1>
                     <Alert
                         type="danger"
                         style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
