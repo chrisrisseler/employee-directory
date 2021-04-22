@@ -10,7 +10,8 @@ class Search extends Component {
         search: "",
         people: [{}],
         results: [{}],
-        error: ""
+        error: "",
+        order: "descending"
     };
 
     // When the component mounts, get a list of all available base breeds and update this.state.breeds
@@ -40,6 +41,91 @@ class Search extends Component {
         this.setState({ results: filterList })
     };
 
+    handleSortChange = header => {
+        // console.log("handlesortchange")
+        if (this.state.order === "descending") {
+            this.setState({ order: "ascending" })
+
+        }
+        else {
+            this.setState({ order: "descending" })
+        }
+        const sortedResults = this.state.results.sort((a, b) => {
+            // console.log(header)
+            if (this.state.order === "ascending") {
+                if (header === "name") {
+                    if (a.name.first < b.name.first) {
+                        return -1;
+                    }
+                    if (a.name.first > b.name.first) {
+                        return 1;
+                    }
+                    return 0;
+                };
+                if (header === "address") {
+                    if (a.location.street.number < b.location.street.number) {
+                        return -1;
+                    }
+                    if (a.location.street.number > b.location.street.number) {
+                        return 1;
+                    }
+                    return 0;
+                };
+                if (header === "username") {
+                    if (a.login.username < b.login.username) {
+                        return -1;
+                    }
+                    if (a.login.username > b.login.username) {
+                        return 1;
+                    }
+                    return 0;
+                };
+            }
+            else {
+                if (header === "name") {
+                    if (b.name.first < a.name.first) {
+                        return -1;
+                    }
+                    if (b.name.first > a.name.first) {
+                        return 1;
+                    }
+                    return 0;
+                };
+                if (header === "address") {
+                    if (b.location.street.number < a.location.street.number) {
+                        return -1;
+                    }
+                    if (b.location.street.number > a.location.street.number) {
+                        return 1;
+                    }
+                    return 0;
+                };
+                if (header === "username") {
+                    if (b.login.username < a.login.username) {
+                        return -1;
+                    }
+                    if (b.login.username > a.login.username) {
+                        return 1;
+                    }
+                    return 0;
+                };
+            }
+
+        })
+        this.setState({ results: sortedResults })
+
+    }
+
+    headerValues = [{
+        name: "Name"
+    },
+    {
+        name: "Address"
+    },
+    {
+        name: "Username"
+    }]
+
     // handleFormSubmit = event => {
     //     event.preventDefault();
     //     API.getDogsOfBreed(this.state.search)
@@ -68,7 +154,7 @@ class Search extends Component {
                         handleInputChange={this.handleInputChange}
                     />
 
-                    <SearchResults results={this.state.results} />
+                    <SearchResults results={this.state.results} handleSortChange={this.handleSortChange} tableHeaders={this.headerValues} />
                 </Container>
             </div>
         );

@@ -6,9 +6,17 @@ function SearchResults(props) {
     <table className="table search-results">
       <tbody className="table">
         <tr>
-          <th id="name">Name</th>
+          {props.tableHeaders.map(
+            ({ name }) => (
+              <th key={name} id={name.toLowerCase()} onClick={() => {
+                // console.log("hi search results")
+                props.handleSortChange(name.toLowerCase())
+              }}>{name}</th>
+            )
+          )}
+          {/* <th id="name">Name</th>
           <th id="address">Address</th>
-          <th id="username">UserName</th>
+          <th id="username">Username</th> */}
         </tr>
         {props.results[0] !== undefined && props.results[0].name !== undefined ? (props.results.map(result => (
           <tr key={result.login.uuid}>
